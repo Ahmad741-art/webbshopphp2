@@ -34,7 +34,7 @@ if (!empty($_SESSION['role']) && $_SESSION['role'] === 'customer' && !empty($_SE
     echo '    <link rel="stylesheet" href="css/style.css">
         <div class="header">
     <a href="add_product.php">Add Product</a>
-    <a href="manage_orders.php">manage orders</a>
+    <a href="view_orders.php">manage orders</a>
     <div class="products-container">
     <a href="view_products.php" class="products-icon">view products 📦</a>
     <a href="logout.php">log out</a>

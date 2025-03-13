@@ -5,7 +5,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 ?>
+    <!-- Header -->
+    <?php include 'header.php'; ?>  
 
 <h1>Welcome Admin, <?php echo $_SESSION['username']; ?></h1>
-<a href="view_products.php">Manage Products</a>
-<a href="logout.php">Logout</a>
+<!--<a href="view_products.php">Manage Products</a>
+<a href="logout.php">Logout</a>-->
