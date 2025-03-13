@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
         if ($user['role'] === 'admin') {
             header('Location: admin_dashboard.php');
         } else {
-            header('Location: index.php');
+            header('Location: customer_dashboard.php');
         }
     } else {
         echo "Invalid email or password";

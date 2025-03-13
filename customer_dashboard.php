@@ -6,4 +6,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
 }
 echo "Welcome, " . $_SESSION['username'];
 ?>
+
+<!-- Include header -->
+<?php include 'header.php'; ?>
+
 <a href="logout.php">Logout</a>

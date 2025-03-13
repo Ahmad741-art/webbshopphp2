@@ -1,42 +1,70 @@
 <?php
-session_start();
-include 'connect.php'; // Ensure the database connection is included
+include 'connect.php'; // Ensure database connection
 
-// Restrict access to admins only
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header('Location: login.php'); // Redirect non-admin users to login
-    exit();
-}
+$display_message = ""; // Initialize message variable
 
 if (isset($_POST['add_product'])) {
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $product_price = $_POST['product_price'];
-    $admin_id = $_SESSION['user_id']; // Assuming admin's ID is stored in session
-
-    // Handle file upload
     $product_image = $_FILES['product_image']['name'];
-    $image_tmp_name = $_FILES['product_image']['tmp_name'];
-    $image_folder = 'images/' . $product_image; // Folder where images will be stored
+    $product_image_temp_name = $_FILES['product_image']['tmp_name'];
+    $product_image_folder = 'images/' . basename($product_image);
 
-    if (move_uploaded_file($image_tmp_name, $image_folder)) {
-        // Insert product into the database
-        $insert_product = mysqli_query($conn, "INSERT INTO products (name, price, image, added_by_admin_id) VALUES ('$product_name', '$product_price', '$product_image', '$admin_id')");
+    // Insert product into database using prepared statement
+    $stmt = $conn->prepare("INSERT INTO products (name, price, image) VALUES (?, ?, ?)");
+    $stmt->bind_param("sds", $product_name, $product_price, $product_image_folder);
 
-        if ($insert_product) {
-            echo "Product added successfully!";
-        } else {
-            echo "Failed to add product!";
-        }
+    if ($stmt->execute()) {
+        move_uploaded_file($product_image_temp_name, $product_image_folder);
+        $display_message = "Product inserted successfully!";
     } else {
-        echo "Failed to upload image!";
+        $display_message = "Error inserting product.";
     }
+
+    $stmt->close(); // Close statement
 }
 ?>
 
-<h1>Add New Product</h1>
-<form method="post" enctype="multipart/form-data">
-    <input type="text" name="product_name" required placeholder="Product Name">
-    <input type="number" name="product_price" required placeholder="Product Price">
-    <input type="file" name="product_image" required>
-    <input type="submit" name="add_product" value="Add Product">
-</form>
+<!-- Include Header -->
+<?php include 'header.php'; ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div class="container">
+    <!-- Display Message -->
+    <?php if (!empty($display_message)) : ?>
+        <div class='display_message'>
+            <span><?= htmlspecialchars($display_message) ?></span>
+            <i class='fas fa-times' onclick='this.parentElement.style.display="none";'></i>
+        </div>
+    <?php endif; ?>
+
+    <section>
+        <h3 class="heading">Add Products</h3>
+        <form action="" class="add_product" method="post" enctype="multipart/form-data">
+            <input type="text" name="product_name" placeholder="Enter product name" class="input_fields" required>
+            <input type="number" name="product_price" min="0" placeholder="Enter product price" class="input_fields" required>
+            <input type="file" name="product_image" class="input_fields" required accept="image/png, image/jpg, image/jpeg">
+            <input type="submit" name="add_product" class="submit_btn" value="Add Product">
+        </form>
+    </section>
+</div>
+
+<!-- JavaScript -->
+<script src="js/script.js"></script>
+
+</body>
+</html>
