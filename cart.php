@@ -4,7 +4,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
     header('Location: login.php'); // Redirect non-customers
     exit();
 }
-?>
+    ?>
 
 
 <?php

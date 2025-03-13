@@ -13,9 +13,10 @@ if (isset($_POST['login'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['username'] = $user['username'];
-
+       // echo $user['role'];
+       //sleep(3);
         if ($user['role'] === 'admin') {
-            header('Location: admin_dashboard.php');
+           header('Location: admin_dashboard.php');
         } else {
             header('Location: customer_dashboard.php');
         }

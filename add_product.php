@@ -1,4 +1,10 @@
 <?php
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');  // Redirect non-admins to login
+    exit();
+}
+?>
+<?php
 include 'connect.php'; // Ensure database connection
 
 $display_message = ""; // Initialize message variable
