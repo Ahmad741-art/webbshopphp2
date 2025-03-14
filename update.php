@@ -69,7 +69,22 @@ if(isset($_GET['edit'])){
 <!-- form -->
 <form action="" method="post" enctype="multipart/form-data"
     class="update_product product_container_box">
-        <img src="images/<?php echo $fetch_data['image']?>" alt="">
+    
+
+
+
+
+        <?php
+        // Example array value (Replace with your actual data source)
+        $fetch_data['image'] = "https://example.com/image.jpg"; // Example link
+
+        // Check if the value contains "://" (indicating it's a full URL)
+        if (strpos($fetch_data['image'], "://") !== false) { 
+            echo '<img src="' . $fetch_data['image'] . '" alt="">';
+        } else {
+            echo '<img src="images/' . $fetch_data['image'] . '" alt="">';
+        }
+        ?>
         <input type="hidden" value="<?php echo $fetch_data['id']?>" name="update_product_id">
         <input type="text" class="input_fields fields" required value="<?php echo $fetch_data['name']?>" name="update_product_name">
         <input type="number" class="input_fields fields" required value="<?php echo $fetch_data['price']?>" name="update_product_price">

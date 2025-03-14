@@ -1,34 +1,43 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header('Location: login.php');  // Redirect non-admins to login
     exit();
 }
-?>
-<?php
+
+
+
 include 'connect.php'; // Ensure database connection
 
 $display_message = ""; // Initialize message variable
 
 if (isset($_POST['add_product'])) {
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-    $product_price = $_POST['product_price'];
+    $product_price = floatval($_POST['product_price']); // Ensure price is a valid float
     $product_image = $_FILES['product_image']['name'];
     $product_image_temp_name = $_FILES['product_image']['tmp_name'];
     $product_image_folder = 'images/' . basename($product_image);
+    
+    // Fetch the admin ID from session (Ensure it's set)
+    $added_by_admin_id = $_SESSION['user_id'] ?? null;
 
-    // Insert product into database using prepared statement
-    $stmt = $conn->prepare("INSERT INTO products (name, price, image) VALUES (?, ?, ?)");
-    $stmt->bind_param("sds", $product_name, $product_price, $product_image_folder);
-
-    if ($stmt->execute()) {
-        move_uploaded_file($product_image_temp_name, $product_image_folder);
-        $display_message = "Product inserted successfully!";
+    if ($added_by_admin_id === null) {
+        $display_message = "Error: Admin ID is missing.";
     } else {
-        $display_message = "Error inserting product.";
-    }
+        // Insert product into database using prepared statement
+        $stmt = $conn->prepare("INSERT INTO products (name, price, image, added_by_admin_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sdsi", $product_name, $product_price, $product_image_folder, $added_by_admin_id);
 
-    $stmt->close(); // Close statement
+        if ($stmt->execute()) {
+            move_uploaded_file($product_image_temp_name, $product_image_folder);
+            $display_message = "Product inserted successfully!";
+        } else {
+            $display_message = "Error inserting product: " . $stmt->error;
+        }
+
+        $stmt->close(); // Close statement
+    }
 }
 ?>
 

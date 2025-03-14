@@ -11,6 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,9 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <!-- CSS file -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Font Awesome link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -47,17 +50,28 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     <tbody>";
 
                 // Fetch data from the database and display it
-                $num = 1;
+                $x = 1;
                 while ($row = mysqli_fetch_assoc($display_product)) {
                     ?>
                     <!-- Display table rows -->
                     <tr>
-                        <td><?php echo $num; ?></td>
-                        <td><img src="images/<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" style="width: 100px;"></td>
+                        <td><?php echo $x; ?></td>
+                        <td><?php
+                        // Check if the image name contains "://" (indicating it's a full URL)
+                            if (strpos($row['image'], "://") !== false) {
+                                echo '<img src="' . $row['image'] . '"style="width: 100px;" alt="">';
+                            } else {
+                                echo '<img src="images/' . $row['image'] . '"style="width: 100px;" alt="">';
+                            }
+                        ?></td>
+       <!--                 <td><img src="images/<?php echo htmlspecialchars($row['image']); ?>"
+                                alt="<?php echo htmlspecialchars($row['name']); ?>" style="width: 100px;"></td>
+                        -->
                         <td><?php echo htmlspecialchars($row['name']); ?></td>
                         <td><?php echo htmlspecialchars($row['price']); ?></td>
                         <td>
-                            <a href="delete.php?delete=<?php echo $row['id']; ?>" class="delete_product_btn" onclick="return confirm('Are you sure you want to delete this product?');">
+                            <a href="delete.php?delete=<?php echo $row['id']; ?>" class="delete_product_btn"
+                                onclick="return confirm('Are you sure you want to delete this product?');">
                                 <i class="fas fa-trash"></i>
                             </a>
                             <a href="update.php?edit=<?php echo $row['id']; ?>" class="update_product_btn">
@@ -66,7 +80,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         </td>
                     </tr>
                     <?php
-                    $num++;
+                    $x++;
                 }
                 echo "
                     </tbody>
@@ -79,4 +93,5 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     </div>
 
 </body>
+
 </html>

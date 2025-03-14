@@ -68,8 +68,15 @@ if(isset($_POST['Add_to_cart'])){
             ?>
             <form method="post" action="">
                 <div class="edit_form">
-                    <img src="images/<?php echo $fetch_product['image']; ?>" alt="">
-                    <h3><?php echo $fetch_product['name']; ?></h3>
+                <?php
+                
+                        // Check if the image name contains "://" (indicating it's a full URL)
+                            if (strpos($fetch_product['image'], "://") !== false) {
+                                echo '<img src="' . $fetch_product['image'] . '"style="width: 100px;" alt="">';
+                            } else {
+                                echo '<img src="images/' . $fetch_product['image'] . '"style="width: 100px;" alt="">';
+                            }
+                        ?>                    <h3><?php echo $fetch_product['name']; ?></h3>
                     <div class="price">Price: <?php echo $fetch_product['price']; ?>/-</div>
                     <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                     <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
