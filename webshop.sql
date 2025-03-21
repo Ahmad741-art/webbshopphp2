@@ -2,10 +2,10 @@
 -- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Värd: db:3306
--- Tid vid skapande: 14 mars 2025 kl 12:43
--- Serverversion: 9.2.0
--- PHP-version: 8.2.27
+-- Host: db:3306
+-- Generation Time: Mar 21, 2025 at 07:53 AM
+-- Server version: 9.2.0
+-- PHP Version: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,34 +18,27 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databas: `shopping_cart`
+-- Database: `shopping_cart`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `cart`
+-- Table structure for table `cart`
 --
 
 CREATE TABLE `cart` (
   `name` varchar(100) NOT NULL,
   `price` varchar(100) NOT NULL,
-  `image` varchar(100) NOT NULL,
+  `image` varchar(500) DEFAULT NULL,
   `quantity` int NOT NULL,
   `id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumpning av Data i tabell `cart`
---
-
-INSERT INTO `cart` (`name`, `price`, `image`, `quantity`, `id`) VALUES
-('hörlurar', '800', 'hörlurar.jpg', 1, 22);
-
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -61,7 +54,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumpning av Data i tabell `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `full_name`, `email`, `phone`, `address`, `payment_method`, `products`, `total_price`, `order_date`) VALUES
@@ -72,12 +65,13 @@ INSERT INTO `orders` (`id`, `full_name`, `email`, `phone`, `address`, `payment_m
 (23, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"earbuds\": 1, \"hörlurar\": 1}', 1800.00, '2025-03-06 17:20:42'),
 (24, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"laptop\": 1}', 15000.00, '2025-03-07 04:10:03'),
 (25, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"earbuds\": 1}', 1000.00, '2025-03-07 20:35:18'),
-(26, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"earbuds\": 1}', 1000.00, '2025-03-10 20:50:56');
+(26, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"earbuds\": 1}', 1000.00, '2025-03-10 20:50:56'),
+(27, 'Ahmad Esmael', 'lund7alab2004@gmail.com', '0790154668', 'Sunnanväg 137', 'Credit Card', '{\"hörlurar\": 1}', 800.00, '2025-03-21 07:17:51');
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
@@ -89,7 +83,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumpning av Data i tabell `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `image`, `added_by_admin_id`) VALUES
@@ -102,7 +96,7 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `added_by_admin_id`) VAL
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -114,7 +108,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumpning av Data i tabell `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`) VALUES
@@ -125,58 +119,58 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`) VALUES
 (8, 'Alrik', '$2y$12$AOKt9Mx6g3HgjWZ4sy6eBeJWUA/Bv/t4qP9f9QbDsKI3kIENgNZXK', 'customer', 'aaaaa.lllll@gmail.com');
 
 --
--- Index för dumpade tabeller
+-- Indexes for dumped tables
 --
 
 --
--- Index för tabell `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index för tabell `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index för tabell `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index för tabell `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT för dumpade tabeller
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT för tabell `cart`
+-- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT för tabell `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT för tabell `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
--- AUTO_INCREMENT för tabell `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
