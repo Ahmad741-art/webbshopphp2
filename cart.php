@@ -48,6 +48,23 @@ if (isset($_POST['update_cart_quantity'])) {
 
 <!-- Include header -->
 <?php include 'header.php'; ?>
+<?php
+// Your session and database connection code here
+?>
+
+<!-- Logout Button Styled -->
+<div style="text-align: right; margin: 20px;">
+    <a href="logout.php" style="
+        padding: 10px 20px;
+        background-color: #e74c3c;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    ">Logout</a>
+</div>
+
 
 <!-- Display message -->
 <?php 
